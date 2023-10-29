@@ -2,7 +2,7 @@ name: Monthly Job
 
 on:
   schedule:
-    - cron: "0 0 1 * *"
+    - cron: "0 10 1 * *"
 
 jobs:
   call-localhost:
@@ -14,6 +14,6 @@ jobs:
 
       - name: Call localhost endpoint
         run: |
-          # Ganti localhost:8000 dengan alamat endpoint yang benar
-          # Anda juga dapat menyesuaikan perintah curl sesuai kebutuhan
-          curl -X GET http://localhost:1312/transactions
+          # Ganti localhost:1312 dengan alamat endpoint yang benar
+          # ini adalah program untuk pemanggilan endpoint transactions otomatis
+          curl -X GET http://localhost:1312/new

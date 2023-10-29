@@ -1,9 +1,11 @@
 package middleware
 
 import (
+	"miniproject/models"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type jwtCustomClaims struct {
@@ -28,4 +30,26 @@ func CreateToken(userId int, username, secretKey string) (string, error) {
 	}
 
 	return signedToken, nil
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
+}
+
+func EncryptAdminPassword(admin *models.Admin) error {
+	hashedPassword, err := HashPassword(admin.Password)
+	if err != nil {
+		return err
+	}
+	admin.Password = hashedPassword
+	return nil
+}
+
+func ComparePasswords(hashedPassword, plainPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
+	return err == nil
 }
