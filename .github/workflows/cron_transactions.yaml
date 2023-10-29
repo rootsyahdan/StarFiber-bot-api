@@ -1,0 +1,19 @@
+name: Monthly Job
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+
+jobs:
+  call-localhost:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Call localhost endpoint
+        run: |
+          # Ganti localhost:8000 dengan alamat endpoint yang benar
+          # Anda juga dapat menyesuaikan perintah curl sesuai kebutuhan
+          curl -X GET http://localhost:1312/transactions
