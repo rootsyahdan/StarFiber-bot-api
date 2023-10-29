@@ -1,6 +1,7 @@
 package models
 
 import (
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -15,4 +16,13 @@ type AdminResponse struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	token    string `json:"token"`
+}
+
+func (admin *Admin) HashPassword() error {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(admin.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	admin.Password = string(hashedPassword)
+	return nil
 }
