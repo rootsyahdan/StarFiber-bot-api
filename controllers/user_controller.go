@@ -88,7 +88,7 @@ func DeleteUserController(c echo.Context) error {
 func UpdateUserController(c echo.Context) error {
 	id := c.Param("id")
 	user := models.User{}
-	if err := configs.DB.Preload("Membership").First(&user, id).Error; err != nil {
+	if err := configs.DB.First(&user, id).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusNotFound, "user not found")
 
 	}
@@ -97,6 +97,10 @@ func UpdateUserController(c echo.Context) error {
 	}
 	if err := configs.DB.Save(&user).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+	if err := configs.DB.Preload("Membership").First(&user, id).Error; err != nil {
+		return utils.ErrorResponse(c, http.StatusNotFound, "user not found")
+
 	}
 	userResponse := user.ToUserResponse()
 	response := utils.JSONResponse{
