@@ -18,31 +18,38 @@ Anda dapat menggunakan API ini untuk keperluan seperti Pendaftaran Pendaftaran I
 
 ## Endpoints
 
-| Route         | HTTP Method | Deskripsi                           |
-| ------------- | ----------- | ----------------------------------- |
-| /admins       | POST        | Membuat Admins baru                 |
-| /admins/login | POST        | Login data Admin berdasarkan Admins |
+| Route         | HTTP Method | Deskripsi                             | Auth Type         |
+| ------------- | ----------- | ------------------------------------- | ----------------- |
+| /admins       | POST        | Membuat Admins baru                   | Not Authenticated |
+| /admins/login | POST        | Login data admin berdasarkan Admins   | Not Authenticated |
+| /admins/:id   | GET         | Mendapatkan data admin berdasarkan ID | Not Authenticated |
+| /admins/:id   | PUT         | Mengubah data admin berdasarkan ID    | Not Authenticated |
+| /admins/:id   | DELETE      | Menghapus data admin berdasarkan ID   | Not Authenticated |
 
-| Route      | HTTP Method | Deskripsi                            |
-| ---------- | ----------- | ------------------------------------ |
-| /users     | GET         | Mendapatkan semua data user          |
-| /users/:id | GET         | Mendapatkan data user berdasarkan ID |
-| /users     | POST        | Membuat user baru                    |
-| /users/:id | PUT         | Mengubah data user berdasarkan ID    |
-| /users/:id | DELETE      | Menghapus data user berdasarkan ID   |
+| Route      | HTTP Method | Deskripsi                            | Auth Type     |
+| ---------- | ----------- | ------------------------------------ | ------------- |
+| /users     | GET         | Mendapatkan semua data user          | Authenticated |
+| /users/:id | GET         | Mendapatkan data user berdasarkan ID | Authenticated |
+| /users     | POST        | Membuat user baru                    | Authenticated |
+| /users/:id | PUT         | Mengubah data user berdasarkan ID    | Authenticated |
+| /users/:id | DELETE      | Menghapus data user berdasarkan ID   | Authenticated |
 
-| Route            | HTTP Method | Deskripsi                                   |
-| ---------------- | ----------- | ------------------------------------------- |
-| /memberships     | GET         | Mendapatkan semua data membership           |
-| /memberships/:id | GET         | Mendapatkan data memberships berdasarkan ID |
-| /memberships     | POST        | Membuat membership baru                     |
-| /memberships/:id | PUT         | Mengubah data membership berdasarkan ID     |
-| /memberships/:id | DELETE      | Menghapus data membership berdasarkan ID    |
+| Route            | HTTP Method | Deskripsi                                   | Auth Type     |
+| ---------------- | ----------- | ------------------------------------------- | ------------- |
+| /memberships     | GET         | Mendapatkan semua data membership           | Authenticated |
+| /memberships/:id | GET         | Mendapatkan data memberships berdasarkan ID | Authenticated |
+| /memberships     | POST        | Membuat membership baru                     | Authenticated |
+| /memberships/:id | PUT         | Mengubah data membership berdasarkan ID     | Authenticated |
+| /memberships/:id | DELETE      | Menghapus data membership berdasarkan ID    | Authenticated |
 
-| Route             | HTTP Method | Deskripsi                                    |
-| ----------------- | ----------- | -------------------------------------------- |
-| /transactions     | GET         | Mendapatkan semua data transactions          |
-| /transactions/:id | GET         | Mendapatkan data transactions berdasarkan ID |
-| /transactions     | POST        | Membuat transactions baru                    |
-| /transactions/:id | PUT         | Mengubah data transactions berdasarkan ID    |
-| /transactions/:id | DELETE      | Menghapus data transactions berdasarkan ID   |
+| Route             | HTTP Method | Deskripsi                                    | Auth Type     |
+| ----------------- | ----------- | -------------------------------------------- | ------------- |
+| /transactions     | GET         | Mendapatkan semua data transactions          | Authenticated |
+| /transactions/:id | GET         | Mendapatkan data transactions berdasarkan ID | Authenticated |
+| /transactions     | POST        | Membuat transactions baru                    | Authenticated |
+| /transactions/:id | PUT         | Mengubah data transactions berdasarkan ID    | Authenticated |
+| /transactions/:id | DELETE      | Menghapus data transactions berdasarkan ID   | Authenticated |
+
+| Route | HTTP Method | Deskripsi                  | Auth Type         |
+| ----- | ----------- | -------------------------- | ----------------- |
+| /new  | Post        | Membuat Transaksi otomatis | Not Authenticated |
