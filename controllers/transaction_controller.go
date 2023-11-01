@@ -31,6 +31,10 @@ func GetTransactionsController(c echo.Context) error {
 			return utils.ErrorResponse(c, http.StatusBadRequest, "Invalid 'year' query parameter.")
 		}
 
+		if month < 1 || month > 12 {
+			return utils.ErrorResponse(c, http.StatusBadRequest, "Invalid month. Month should be between 1 and 12.")
+		}
+
 		startDate := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
 		endDate := startDate.AddDate(0, 1, 0).Add(-time.Second)
 
