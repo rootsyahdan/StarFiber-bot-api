@@ -50,6 +50,11 @@ Anda dapat menggunakan API ini untuk keperluan seperti Pendaftaran Pendaftaran I
 | /transactions/:id | PUT         | Mengubah data transactions berdasarkan ID    | Authenticated |
 | /transactions/:id | DELETE      | Menghapus data transactions berdasarkan ID   | Authenticated |
 
-| Route | HTTP Method | Deskripsi                  | Auth Type         |
-| ----- | ----------- | -------------------------- | ----------------- |
-| /new  | Post        | Membuat Transaksi otomatis | Not Authenticated |
+| Route               | HTTP Method | Deskripsi                  | Auth Type         |
+| ------------------- | ----------- | -------------------------- | ----------------- |
+| /new                | Post        | Membuat Transaksi otomatis | Not Authenticated |
+| /ai-recommendations | Post        | Membuat Rekomendasi AI     | Authenticated     |
+
+## ERD
+
+![ERD](./images/ERD.png)

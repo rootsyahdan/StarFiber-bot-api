@@ -1,0 +1,40 @@
+name: build, deploy mvc in main server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: docker build
+        run: docker build -t rootsyahdan111/starfiber-api:1.0.0 .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: push to docker hub
+        run: docker push rootsyahdan111/starfiber-api:1.0.0
+      - name: login to EC2
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.USER_NAME }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/syahdan.pem
+          chmod 400 ~/.ssh/syahdan.pem
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/syahdan.pem
+            StrictHostKeyChecking=no
+          END
+      - name: login EC2 + docker pull + running container
+        run: ssh staging 'docker ps -aq | xargs docker rm -f || true && docker pull rootsyahdan111/starfiber-api:1.0.0 && docker run -d -p 8000:8000 --name starfiber-api -p 1312:1312 rootsyahdan111/starfiber-api:1.0.0'

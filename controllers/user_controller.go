@@ -11,10 +11,30 @@ import (
 
 func GetUsersController(c echo.Context) error {
 	var users []models.User
-	if err := configs.DB.Preload("Membership").Find(&users).Error; err != nil {
+	var userResponses []models.UserResponse
+
+	phoneNumber := c.QueryParam("phone_number")
+	email := c.QueryParam("email")
+	name := c.QueryParam("name")
+
+	query := configs.DB.Preload("Membership")
+
+	if phoneNumber != "" {
+		query = query.Where("phone_number = ?", phoneNumber)
+	}
+
+	if email != "" {
+		query = query.Where("email = ?", email)
+	}
+
+	if name != "" {
+		query = query.Where("name LIKE ?", name+"%")
+	}
+
+	if err := query.Find(&users).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
-	var userResponses []models.UserResponse
+
 	for _, user := range users {
 		userResponses = append(userResponses, user.ToUserResponse())
 	}
@@ -24,11 +44,9 @@ func GetUsersController(c echo.Context) error {
 			Success: true,
 			Message: "Success! Retrieved Users",
 		},
-
 		Results: userResponses,
 	}
 	return c.JSON(http.StatusOK, response)
-
 }
 
 func GetUserController(c echo.Context) error {
