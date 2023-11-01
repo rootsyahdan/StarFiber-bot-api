@@ -19,10 +19,12 @@ func GetMembershipsController(c echo.Context) error {
 		membershipResponse = append(membershipResponse, member.ToMembershipResponse())
 	}
 
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! Get Membership",
-		Data:    membershipResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Retrieved Memberships",
+		},
+		Results: membershipResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 
@@ -35,10 +37,12 @@ func GetMembershipController(c echo.Context) error {
 	}
 
 	membershipResponse := membership.ToMembershipResponse()
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success get membership",
-		Data:    membershipResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Get Membership",
+		},
+		Results: membershipResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -59,10 +63,12 @@ func CreateMembershipController(c echo.Context) error {
 
 	membershipResponse := membership.ToMembershipResponse()
 
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! membership created",
-		Data:    membershipResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Created Memberships",
+		},
+		Results: membershipResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -79,9 +85,11 @@ func DeleteMembershipController(c echo.Context) error {
 	if err := configs.DB.Delete(&membership).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success Delete membership",
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Deleted Memberships",
+		},
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -100,10 +108,12 @@ func UpdateMembershipController(c echo.Context) error {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
 	membershipResponse := membership.ToMembershipResponse()
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success Create Membership",
-		Data:    membershipResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Updated Memberships",
+		},
+		Results: membershipResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }

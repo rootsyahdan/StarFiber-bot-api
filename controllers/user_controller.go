@@ -19,10 +19,13 @@ func GetUsersController(c echo.Context) error {
 		userResponses = append(userResponses, user.ToUserResponse())
 	}
 
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! Get users",
-		Data:    userResponses,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Retrieved Users",
+		},
+
+		Results: userResponses,
 	}
 	return c.JSON(http.StatusOK, response)
 
@@ -35,10 +38,12 @@ func GetUserController(c echo.Context) error {
 	}
 
 	userResponse := user.ToUserResponse()
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success get user",
-		Data:    userResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Get User",
+		},
+		Results: userResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -58,10 +63,12 @@ func CreateUserController(c echo.Context) error {
 	}
 	userResponse := user.ToUserResponse()
 
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! User created",
-		Data:    userResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Created User",
+		},
+		Results: userResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -78,9 +85,11 @@ func DeleteUserController(c echo.Context) error {
 	if err := configs.DB.Delete(&user).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success Delete user",
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Deleted User",
+		},
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -103,10 +112,12 @@ func UpdateUserController(c echo.Context) error {
 
 	}
 	userResponse := user.ToUserResponse()
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success Create user",
-		Data:    userResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Updated User",
+		},
+		Results: userResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }

@@ -22,7 +22,7 @@ type Config struct {
 	DBName     string
 }
 
-func init() {
+func ConnectDB() {
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
@@ -57,7 +57,7 @@ func InitDB() {
 }
 
 func InitialMigration() {
-	err := DB.AutoMigrate(&models.User{}, &models.Membership{}, &models.Transaction{}, &models.Admin{}, &models.MonthlyRevenue{}, &models.LastExecution{})
+	err := DB.AutoMigrate(&models.User{}, &models.Membership{}, &models.Transaction{}, &models.Admin{}, &models.LastExecution{})
 	if err != nil {
 		panic(err)
 	}
