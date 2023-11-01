@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: "Create env file"
+        run: echo "${{ secrets.ENV_FILE }}" > .env
       - name: docker build
         run: docker build -t rootsyahdan111/starfiber-api:1.0.0 .
       - name: Login to Docker Hub
