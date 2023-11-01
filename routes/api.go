@@ -1,10 +1,12 @@
 package routes
 
 import (
+	"log"
 	"miniproject/constants"
 	"miniproject/controllers"
 	"miniproject/middleware"
 
+	"github.com/joho/godotenv"
 	mid "github.com/labstack/echo/v4/middleware"
 
 	"github.com/labstack/echo/v4"
@@ -13,6 +15,10 @@ import (
 func Init() *echo.Echo {
 	e := echo.New()
 	middleware.LogMiddlewares(e)
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	e.GET("/admins", controllers.GetAdminsController)
 	e.GET("/admins/:id", controllers.GetAdminController)
@@ -43,6 +49,8 @@ func Init() *echo.Echo {
 	eJwt.POST("/transactions", controllers.CreateTransactionController)
 	eJwt.PUT("/transactions/:id", controllers.UpdateTransactionController)
 	eJwt.DELETE("/transactions/:id", controllers.DeleteTransactionController)
+
+	eJwt.POST("/ai-recommendations", controllers.CreatePersonRequest)
 
 	return e
 }

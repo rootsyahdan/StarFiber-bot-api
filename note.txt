@@ -1,0 +1,5 @@
+docker buildx build --platform linux/amd64 -t rootsyahdan111/starfiber-api:1.0.0 .
+docker push rootsyahdan111/starfiber-api:1.0.0
+
+docker pull rootsyahdan111/starfiber-api:1.0.0
+docker run --name starfiber-api -p 1312:1312 rootsyahdan111/starfiber-api:1.0.0
