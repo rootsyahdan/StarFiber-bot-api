@@ -28,10 +28,12 @@ func CreateAdminController(c echo.Context) error {
 	}
 
 	// Response for successful admin creation
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! Admin created",
-		Data:    admin,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! created Admin",
+		},
+		Results: admin,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -41,10 +43,12 @@ func GetAdminsController(c echo.Context) error {
 	if err := configs.DB.Find(&admin).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! Get Admins",
-		Data:    admin,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Retrieved Admin",
+		},
+		Results: admin,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -55,10 +59,12 @@ func GetAdminController(c echo.Context) error {
 		return utils.ErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
 
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success get admin",
-		Data:    admin,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Get Admin",
+		},
+		Results: admin,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -72,9 +78,11 @@ func DeleteAdminController(c echo.Context) error {
 	if err := configs.DB.Delete(&admin).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success Delete admin",
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Deleted Admin",
+		},
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -91,10 +99,12 @@ func UpdateAdminController(c echo.Context) error {
 	if err := configs.DB.Save(&admin).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success Update admin",
-		Data:    admin,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Updated Admin",
+		},
+		Results: admin,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -120,8 +130,9 @@ func LoginAdminController(c echo.Context) error {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, "Token creation failed")
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Login successful",
-		"data":    admin,
+		"Success": true,
+		"message": "Success! Login successful",
+		"Result":  admin,
 		"token":   token,
 	})
 }

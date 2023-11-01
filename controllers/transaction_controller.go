@@ -31,7 +31,10 @@ func GetTransactionsController(c echo.Context) error {
 			return utils.ErrorResponse(c, http.StatusBadRequest, "Invalid 'year' query parameter.")
 		}
 
-		db = db.Where("MONTH(transaction_date) = ? AND YEAR(transaction_date) = ?", month, year)
+		startDate := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
+		endDate := startDate.AddDate(0, 1, 0).Add(-time.Second)
+
+		db = db.Where("transaction_date BETWEEN ? AND ?", startDate, endDate)
 	}
 
 	if requestedStatus != "" {
@@ -51,12 +54,13 @@ func GetTransactionsController(c echo.Context) error {
 		transactionResponses = append(transactionResponses, transaction.ToTransactionResponse())
 	}
 
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! Retrieved transactions",
-		Data:    transactionResponses,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Retrieved Transactions",
+		},
+		Results: transactionResponses,
 	}
-
 	return c.JSON(http.StatusOK, response)
 }
 
@@ -67,10 +71,12 @@ func GetTransactionController(c echo.Context) error {
 	}
 
 	transactionResponse := transaction.ToTransactionResponse()
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success get transaction",
-		Data:    transactionResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Get Transactions",
+		},
+		Results: transactionResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -91,10 +97,12 @@ func CreateTransactionController(c echo.Context) error {
 
 	transactionResponse := transaction.ToTransactionResponse()
 
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! Create transaction",
-		Data:    transactionResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Created Transactions",
+		},
+		Results: transactionResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -109,9 +117,11 @@ func DeleteTransactionController(c echo.Context) error {
 	if err := configs.DB.Delete(&transaction).Error; err != nil {
 		return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "success Delete transaction",
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Deleted Transactions",
+		},
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -136,10 +146,12 @@ func UpdateTransactionController(c echo.Context) error {
 	}
 
 	transactionResponse := transaction.ToTransactionResponse()
-	response := utils.JSONResponse{
-		Status:  http.StatusOK,
-		Message: "Success! Update transaction",
-		Data:    transactionResponse,
+	response := utils.TSuccessResponse{
+		Meta: utils.TResponseMeta{
+			Success: true,
+			Message: "Success! Updated Transactions",
+		},
+		Results: transactionResponse,
 	}
 	return c.JSON(http.StatusOK, response)
 }
@@ -183,10 +195,12 @@ func CreateTransactionAutomaticallyController(c echo.Context) error {
 			return utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 		}
 
-		response := utils.JSONResponse{
-			Status:  http.StatusCreated,
-			Message: "success create transactions automatically",
-			Data:    users,
+		response := utils.TSuccessResponse{
+			Meta: utils.TResponseMeta{
+				Success: true,
+				Message: "Success! create transactions automatically",
+			},
+			Results: users,
 		}
 		return c.JSON(http.StatusCreated, response)
 	}
