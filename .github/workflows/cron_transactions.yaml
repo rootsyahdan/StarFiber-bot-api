@@ -16,4 +16,4 @@ jobs:
         run: |
           # Ganti localhost:1312 dengan alamat endpoint yang benar
           # ini adalah program untuk pemanggilan endpoint transactions otomatis
-          curl -X GET http://localhost:1312/new
+          curl -X GET http://3.0.139.96:1312/new
